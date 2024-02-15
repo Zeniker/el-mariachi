@@ -1,0 +1,19 @@
+{
+  "name": "el-mariachi",
+  "version": "1.0.0",
+  "description": "Bot El Mariachi para discord",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js",
+    "deploy-commands": "node command-registration.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0"
+  }
+}
