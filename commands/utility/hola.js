@@ -9,7 +9,8 @@ const createSlashCommand = () => {
 };
 
 const execute = async (interaction) => {
-	await interaction.reply(`¡Hola, amigo ${interaction.user.username}!`);
+
+	await interaction.reply(`¡Hola, amigo <@${interaction.user.id}>!`);
 };
 
 module.exports = {

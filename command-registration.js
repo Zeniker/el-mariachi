@@ -4,9 +4,13 @@ DotEnv.config();
 
 const { REST, Routes } = require('discord.js');
 const Hola = require('./commands/utility/hola.js');
+const SendMessage = require('./commands/utility/send-message.js');
+const SendDM = require('./commands/utility/send-dm.js');
 
 const commands = [];
 commands.push(Hola.data.toJSON());
+commands.push(SendMessage.data.toJSON());
+commands.push(SendDM.data.toJSON());
 
 // Construct and prepare an instance of the REST module
 const rest = new REST().setToken(process.env.BOT_TOKEN);
@@ -21,9 +25,6 @@ const rest = new REST().setToken(process.env.BOT_TOKEN);
 			{ body: commands },
 		);
 
-		commands.forEach(element => {
-			console.log(`Registering ${element}`);
-		});
 		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
 	} catch (error) {
 		// And of course, make sure you catch and log any errors!
