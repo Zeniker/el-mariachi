@@ -6,11 +6,13 @@ const { REST, Routes } = require('discord.js');
 const Hola = require('./commands/utility/hola.js');
 const SendMessage = require('./commands/utility/send-message.js');
 const SendDM = require('./commands/utility/send-dm.js');
+const ScheduleMessage = require('./commands/utility/schedule-message.js');
 
 const commands = [];
 commands.push(Hola.data.toJSON());
 commands.push(SendMessage.data.toJSON());
 commands.push(SendDM.data.toJSON());
+commands.push(ScheduleMessage.data.toJSON());
 
 // Construct and prepare an instance of the REST module
 const rest = new REST().setToken(process.env.BOT_TOKEN);

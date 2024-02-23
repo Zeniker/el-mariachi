@@ -2,7 +2,7 @@ const { Collection } = require('discord.js');
 const Hola = require('../commands/utility/hola.js');
 const SendMessage = require('../commands/utility/send-message.js');
 const SendDM = require('../commands/utility/send-dm.js');
-
+const ScheduleMessage = require('../commands/utility/schedule-message.js');
 
 class CommandConfiguration {
 
@@ -17,6 +17,7 @@ class CommandConfiguration {
 		client.commands.set(Hola.data.name, Hola);
 		client.commands.set(SendMessage.data.name, SendMessage);
 		client.commands.set(SendDM.data.name, SendDM);
+		client.commands.set(ScheduleMessage.data.name, ScheduleMessage);
 
 	}
 
