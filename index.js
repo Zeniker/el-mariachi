@@ -7,7 +7,11 @@ const { Client, Events, GatewayIntentBits } = require('discord.js');
 const CommandConfiguration = require('./config/command-configuration.js');
 
 // Create a new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages] });
+const client = new Client({ intents: [
+	GatewayIntentBits.Guilds,
+	GatewayIntentBits.GuildMessages,
+	GatewayIntentBits.MessageContent,
+] });
 
 // Configure commands
 CommandConfiguration.configure(client);
