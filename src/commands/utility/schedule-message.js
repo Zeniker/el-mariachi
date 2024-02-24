@@ -1,6 +1,7 @@
-const { SlashCommandBuilder, FetchGuildOptions } = require('discord.js');
+const { SlashCommandBuilder } = require('discord.js');
 const ScheduledMessage = require('../../domain/scheduled-message');
 const NodeSchedule = require('node-schedule');
+const DateTimeParser = require('../../utils/date-time-parser');
 
 const createSlashCommand = () => {
 
@@ -11,19 +12,6 @@ const createSlashCommand = () => {
 };
 
 const execute = async (interaction) => {
-
-	// const a = new ScheduledMessage();
-	// a.setGuildId(interaction.guildId);
-	// a.setChannelId(interaction.channelId);
-	// a.setClient(interaction.client);
-	// a.setUserId(interaction.user.id);
-
-	// a.client.guilds.fetch({ id: a.guildId }).then((guilds) => {
-	// 	guilds.first().fetch().then(guild => {
-	// 		guild.channels.fetch(a.channelId).then(channel => channel.send('Porra vai logo'));
-	// 	});
-		
-	// });
 
 	// Reply asking which message the bot will send
 	interaction.reply('Que mensagem deseja enviar?').then(() => {
@@ -56,12 +44,18 @@ const askForScheduling = async (interaction, message) => {
 				messageContent = messageContent.trim();
 
 				const dataEnvio = new Date();
+				const dateTimeParser = new DateTimeParser();
 
-				const time = parseTime(messageContent);
+				const parsedDateTime = dateTimeParser.parse(messageContent);
 
-				dataEnvio.setHours(time[0]);
-				dataEnvio.setMinutes(time[1]);
-				dataEnvio.setSeconds(time[2]);
+				if (parsedDateTime === null) {
+					console.error(`Message ${messageContent} is not a valid format`);
+					return;
+				}
+
+				dataEnvio.setHours(parsedDateTime.hours);
+				dataEnvio.setMinutes(parsedDateTime.minutes);
+				dataEnvio.setSeconds(parsedDateTime.seconds);
 
 				const scheduledMessage = new ScheduledMessage();
 				scheduledMessage.setGuildId(interaction.guildId);
@@ -70,7 +64,7 @@ const askForScheduling = async (interaction, message) => {
 				scheduledMessage.setClient(interaction.client);
 				scheduledMessage.setUserId(interaction.user.id);
 
-				NodeSchedule.scheduleJob(dataEnvio, sendScheduledMessage.bind(null, a));
+				NodeSchedule.scheduleJob(dataEnvio, sendScheduledMessage.bind(null, scheduledMessage));
 
 			})
 			.catch((error) => {
@@ -79,42 +73,6 @@ const askForScheduling = async (interaction, message) => {
 			});
 	});
 
-};
-
-const parseTime = (timeInString) => {
-
-	const hourRegex = /^(\d{2})$/;
-	const hourAndMinutesRegex = /^(\d{2})(?::)(\d{2})$/;
-	const hourAndMinutesAndSecondsRegex = /^(\d{2})(?::)(\d{2})(?::)(\d{2})$/;
-
-	let time = timeInString.match(hourRegex);
-
-	if (time !== null) {
-		return parseTimeArray(time);
-	}
-
-	time = timeInString.match(hourAndMinutesRegex);
-
-	if (time !== null) {
-		return parseTimeArray(time);
-	}
-
-	time = timeInString.match(hourAndMinutesAndSecondsRegex);
-
-	if (time !== null) {
-		return parseTimeArray(time);
-	}
-
-};
-
-const parseTimeArray = (timeInArray) => {
-
-	const intTimeIntArray = [];
-	intTimeIntArray.push(parseInt(timeInArray[1]));
-	intTimeIntArray.push(parseInt(timeInArray[2] || 0));
-	intTimeIntArray.push(parseInt(timeInArray[3] || 0));
-
-	return intTimeIntArray;
 };
 
 const sendScheduledMessage = scheduledMessage => {

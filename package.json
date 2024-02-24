@@ -4,9 +4,9 @@
   "description": "Bot El Mariachi para discord",
   "main": "index.js",
   "scripts": {
-    "start": "node.js",
-    "start-local": "nodemon index.js",
-    "deploy-commands": "node command-registration.js"
+    "start": "node ./src/index.js",
+    "start-local": "nodemon ./src/index.js",
+    "deploy-commands": "node ./src/command-registration.js"
   },
   "author": "",
   "license": "ISC",

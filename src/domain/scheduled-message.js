@@ -24,7 +24,7 @@ class ScheduledMessage {
 		this.guildId = guildId;
 	}
 
-	setUserId(userId){
+	setUserId(userId) {
 		this.userId = userId;
 	}
 
